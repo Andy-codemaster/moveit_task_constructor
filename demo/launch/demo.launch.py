@@ -74,7 +74,8 @@ def generate_launch_description():
     ros2_control_node = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[moveit_config.robot_description, ros2_controllers_path],
+        parameters=[ros2_controllers_path],
+        remappings=[("robot_description", "/robot_description")],
         output="both",
     )
 
@@ -87,8 +88,12 @@ def generate_launch_description():
     ]:
         load_controllers += [
             ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner {}".format(controller)],
-                shell=True,
+                cmd=[
+                    "ros2", "run", "controller_manager", "spawner",
+                    controller, "--param-file", ros2_controllers_path,
+                    "--controller-manager-timeout", "120",
+                ],
+                shell=False,
                 output="screen",
             )
         ]

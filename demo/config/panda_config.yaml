@@ -1,8 +1,8 @@
 /**:
   ros__parameters:
+    execute: false
     # Total planning attempts
-    max_solutions: 10
-
+    max_solutions: 3
     # Planning group and link names
     arm_group_name: "panda_arm"
     eef_name: "hand"
